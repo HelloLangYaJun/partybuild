@@ -13,7 +13,10 @@ const components= {
   updatepsd:()=>import('@/components/mybuild/updatepas/index'),
   partyfee:()=>import('@/components/mybuild/partyfee/index'),
   yunhudong:()=>import('@/components/yunactivity/index'),
-  news:()=>import('@/components/news/index')
+  news:()=>import('@/components/news/index'),
+  think:()=>import('@/components/palmactivity/think/index'),
+  mythink:()=>import('@/components/palmactivity/mythink/index'),
+  map:()=>import('@/components/map/index')
 }
 Vue.use(Router)
 export default new Router({
@@ -47,7 +50,11 @@ export default new Router({
       name: 'yunhudong',
       component: components.yunhudong
     },
-
+    {
+      path: '/map',
+      name: 'map',
+      component: components.map
+    },
     {
       path: '/mybuild/myinfo',
       name: 'myinfo',
@@ -76,7 +83,18 @@ export default new Router({
     {
       path: '/palmactivity',
       name: 'palmactivity',
-      component: components.palmactivity
+      component: components.palmactivity,
+
+    },
+    {
+      path: '/palmactivity/think',
+      name: 'think',
+      component: components.think,
+    },
+    {
+      path: '/palmactivity/mythink',
+      name: 'mythink',
+      component: components.mythink,
     },
     {
       path: '/articledetail',

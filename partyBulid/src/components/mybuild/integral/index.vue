@@ -21,7 +21,14 @@
         <p class="left fl">分享</p>
         <p class="right fr">+5</p>
       </div>
-
+      <div class="item denxiang">
+        <p class="left fl">提交思想汇报并审核通过</p>
+        <p class="right fr">+5</p>
+      </div>
+      <div class="item denxiang">
+        <p class="left fl">查看文章</p>
+        <p class="right fr">+1</p>
+      </div>
     </div>
   </div>
 </template>

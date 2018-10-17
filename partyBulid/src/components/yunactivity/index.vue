@@ -140,7 +140,6 @@
             var replay=[]
             var message=[]
             res.data.forEach(i => {
-              console.log(i.type)
               if(i.type=='replay'){
                 replay.push(i)
               }

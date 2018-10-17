@@ -8,8 +8,8 @@
           <div class="img">
             <img :src="userinfo.avatar" alt="" v-if="isLogin">
           </div>
-          <p v-if="userinfo.username">{{userinfo.username}}</p>
-          <p v-if="!userinfo.username">您还未登录，请先登录</p>
+          <p v-if="isLogin">{{userinfo.username}}</p>
+          <p v-if="!isLogin">您还未登录，请先登录</p>
         </div>
       </div>
       <div class="setting">
@@ -45,6 +45,7 @@
           </li>
         </ul>
       </div>
+      <button class="logout" @click="logout" v-if="isLogin">退出登录</button>
     </div>
 </template>
 
@@ -58,6 +59,17 @@
         }
       },
       methods:{
+        logout(){
+          this.$axios.get('/logout').then(res=>{
+            if(res.code==200){
+              this.$message({
+                message: '退出登录成功',
+                type: 'success'
+              });
+              this.getlogin()
+            }
+          })
+        },
         gosetting(route,info){
           if(this.isLogin){
             this.$router.push({path:route,query:{headerinfo:info}})
@@ -109,6 +121,17 @@
 </script>
 
 <style scoped lang="scss">
+  .logout{
+    width: 7rem;
+    height: 1rem;
+    background: #c50206;
+    border-radius: 5px;
+    border: none;
+    position: fixed;
+    bottom: 2rem;
+    color: white;
+    left: 1.5rem;
+  }
   .header {
     position: fixed;
     color: white;

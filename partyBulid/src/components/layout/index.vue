@@ -10,21 +10,24 @@
       <router-view/>
     </div>
     <div class="tabbar">
-      <a class="baritem active" @click="godetail('/')">
+      <a v-bind:class="{ active: tabbar[0],baritem:true }" @click="godetail('/','首页',1)">
         <i>
-          <img src="../../assets/layout/党_red.png" alt="" class="tabbarimg">
+          <img src="../../assets/layout/党_red.png" alt="" class="tabbarimg" v-if="tabbar[0]">
+          <img src="../../assets/layout/党_grey.png" alt="" class="tabbarimg" v-if="!tabbar[0]">
         </i>
         <p>首页</p>
       </a>
-      <a class="baritem" @click="godetail('/news?type=2','通知早知道')">
+      <a v-bind:class="{ active: tabbar[1],baritem:true }" @click="godetail('/news?type=2','通知早知道',2)">
         <i>
-          <img src="../../assets/layout/消息_grey.png" alt="" class="tabbarimg">
+          <img src="../../assets/layout/消息_grey.png" alt="" class="tabbarimg" v-if="!tabbar[1]">
+          <img src="../../assets/layout/消息_red.png" alt="" class="tabbarimg" v-if="tabbar[1]">
         </i>
         <p>通知早知道</p>
       </a>
-      <a class="baritem" @click="godetail('/mybuild')">
+      <a v-bind:class="{ active: tabbar[2],baritem:true }" @click="godetail('/mybuild','我的党建',3)">
         <i>
-          <img src="../../assets/layout/会员_grey.png" alt="" class="tabbarimg">
+          <img src="../../assets/layout/会员_grey.png" alt="" class="tabbarimg" v-if="!tabbar[2]">
+          <img src="../../assets/layout/会员_red.png" alt="" class="tabbarimg" v-if="tabbar[2]">
         </i>
         <p>我的党建</p>
       </a>
@@ -33,20 +36,20 @@
 </template>
 
 <script>
-  import img1 from '../../assets/layout/党_red.png'
-  import img2 from '../../assets/layout/消息_red.png'
-  import img3 from '../../assets/layout/会员_red.png'
-  import img4 from '../../assets/layout/党_grey.png'
-  import img5 from "../../assets/layout/消息_grey.png"
-  import img6 from "../../assets/layout/会员_grey.png"
-
+import Vue from 'vue'
   export default {
     name: "layout",
     data() {
       return {
-        isLogin: false
+        isLogin: false,
+        tabbar:[true,false,false]
       }
     },
+   updated(){
+     if(Vue.prototype.tabbar2){
+       this.tabbar= Vue.prototype.tabbar2
+     }
+   },
     methods: {
       gologin() {
         this.$router.push('/login')
@@ -61,34 +64,37 @@
           }
         })
       },
-      godetail(route,info,flag){
+      godetail(route,info,tabbar){
+        this.tabbar[0]=false
+        this.tabbar[1]=false
+        this.tabbar[2]=false
+        this.tabbar[tabbar-1]=true
         this.$router.push({path:route, query:{headerinfo: info}})
+         Vue.prototype.tabbar2=this.tabbar
       },
-      // godetail(route) {
-      //   this.$router.push(route)
-      // },
     },
     created() {
+      console.log(window.location.pathname)
       this.getlogin()
     }
   }
-  window.onload = function () {
-    var item = document.getElementsByClassName('baritem')
-    var img = document.getElementsByClassName('tabbarimg')
-    var noactive = [img4, img5, img6]
-    var active = [img1, img2, img3]
-    for (let i = 0; i < item.length; i++) {
-      console.log('ok')
-      item[i].onclick = e => {
-        for (let i = 0; i < item.length; i++) {
-          item[i].className = 'baritem'
-          img[i].src = noactive[i]
-        }
-        img[i].src = active[i]
-        item[i].className = 'baritem active'
-      }
-    }
-  }
+  // window.onload = function () {
+  //   var item = document.getElementsByClassName('baritem')
+  //   var img = document.getElementsByClassName('tabbarimg')
+  //   var noactive = [img4, img5, img6]
+  //   var active = [img1, img2, img3]
+  //   for (let i = 0; i < item.length; i++) {
+  //     console.log('ok')
+  //     item[i].onclick = e => {
+  //       for (let i = 0; i < item.length; i++) {
+  //         item[i].className = 'baritem'
+  //         img[i].src = noactive[i]
+  //       }
+  //       img[i].src = active[i]
+  //       item[i].className = 'baritem active'
+  //     }
+  //   }
+  // }
 </script>
 
 <style scoped lang="scss">

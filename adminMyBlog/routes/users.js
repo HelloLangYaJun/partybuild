@@ -4,7 +4,7 @@ const user = require('../models/user')
 router.get('/user',(req,res)=>{
   if(req.session.user){
       user.findOne({id:req.session.user.id}).then(data=>{
-          console.log(data)
+    
         res.json({
             code: 200,
             data:data,
@@ -19,6 +19,37 @@ router.get('/user',(req,res)=>{
     })
   }
 })
+//修改个人信息
+router.post('/user/updateinfo',(req,res)=>{
+    let{username} = req.body
+      user.update({id:req.session.user.id},{$set:{username:username}}).then(data=>{
+        res.json({
+            code: 200,
+            msg: '修改成功'
+        })
+      }).catch(err=>{
+        res.json({
+            code: 400,
+            msg: '修改失败'
+        })
+      })
+  })
+
+router.get('/logout',(req,res)=>{
+    if(req.session.user){
+        req.session.destroy();
+        res.json({
+            code: 200,
+            msg: '退出登录成功'
+        })
+    }
+    else{
+      res.json({
+          code: 400,
+          msg: '未登录'
+      })
+    }
+  })
 //更新密码
 router.post('/updatepsd',(req,res)=>{
     let {newpsd, oldpsd} = req.body;

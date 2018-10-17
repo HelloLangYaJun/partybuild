@@ -7,6 +7,8 @@ import {$axios} from "./utils/index";
 import Header from './components/common/header'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import { InfiniteScroll } from 'mint-ui';
+Vue.use(InfiniteScroll);
 Vue.use(Header)
 Vue.use(ElementUI);
 Vue.prototype.$axios=$axios

@@ -7,7 +7,12 @@
     <Header :headerinfo="headerinfo"></Header>
 
     <!--//普通list页面-->
-    <div class="list" v-if="type" >
+    <div class="list" v-if="type"
+         v-infinite-scroll="loadMore"
+         infinite-scroll-disabled="loading"
+         infinite-scroll-distance="10">
+
+
       <div class="item" v-for="(item,index) in list">
         <div class="container" @click="goarticle(item.newsId)">
           <div class="img">
@@ -31,7 +36,7 @@
         </div>
       </div>
     </div>
-
+     <div class="" v-if="isAll">已全部加载完成</div>
     <!--//照片墙页面-->
     <div class="photo" v-if="!type">
       <div class="item" v-for="(item,index) in list">
@@ -54,11 +59,27 @@
           return{
             list:[],
             headerinfo:'父组件',
-            type:true
+            type:true,
+            pn:1,
+            listtype:0,
+            isAll:false,
           }
       },
       components:{Header},
       methods:{
+        loadMore() {
+          this.$axios.get(`http://211.67.177.56:8080/hhdj/news/newsList.do?page=${this.pn}&rows=10&type=${this.listtype}`).then(res=>{
+            if(res.code==1){
+              if(res.rows.length){
+                this.pn+=1
+                this.list=this.list.concat(res.rows)
+              }
+              else {
+                this.isAll=true
+              }
+            }
+          })
+        },
           back(){
             this.$router.go(-1)
           },
@@ -67,9 +88,9 @@
           this.$router.push({path:`/articledetail?id=${id}`, query:{headerinfo: this.headerinfo}})
         },
           getinfo(type){
-            http://211.67.177.56:8080/hhdj/news/newsList.do?page=1&rows=10&type=3
-            this.$axios.get(`http://211.67.177.56:8080/hhdj/news/newsList.do?page=1&rows=10&type=${type}`).then(res=>{
+            this.$axios.get(`http://211.67.177.56:8080/hhdj/news/newsList.do?page=${this.pn}&rows=10&type=${type}`).then(res=>{
               if(res.code==1){
+                this.pn+=1
                 this.list=res.rows
               }
             })
@@ -82,6 +103,7 @@
         if(this.headerinfo=='随时随地拍'){
             this.type=false
         }
+        this.listtype=this.$route.query.type
           this.getinfo(this.$route.query.type)
       }
     }

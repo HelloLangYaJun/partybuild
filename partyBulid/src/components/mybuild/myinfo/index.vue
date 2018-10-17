@@ -1,6 +1,7 @@
 <template>
     <div class="main">
       <Header :headerinfo="headerinfo"></Header>
+      <div class="xiugai" @click="update">{{isEdit?'保存':"修改"}}</div>
    <div class="container">
      <div class="avatar item">
        <div class="fl">头像</div>
@@ -8,20 +9,20 @@
          <img :src="userinfo.avatar" alt="" >
        </div>
      </div>
-     <div class="name item">
+     <div class="namee item">
        <div class="fl">姓名</div>
-       <div class="fr">{{userinfo.username}}</div>
+       <input type="text" class="fr"v-model="userinfo.username" v-if="isEdit">
+       <in class="fr" v-if="!isEdit">{{userinfo.username}}</in>
      </div>
      <div class="id item">
-       <div class="fl">身份证号</div>
-       <div class="fr">{{userinfo.id}}</div>
+       <div class="fl">{{isEdit?'身份证号(不可更改)':"身份证号"}}</div>
+       <div class="fr" >{{userinfo.id}}</div>
      </div>
      <div class="identity item">
-       <div class="fl">身份</div>
-       <div class="fr">{{userinfo.identity}}</div>
+       <div class="fl">{{isEdit?'身份(不可更改)':"身份"}}</div>
+       <div class="fr" >{{userinfo.identity}}</div>
      </div>
    </div>
-
     </div>
 </template>
 
@@ -32,11 +33,34 @@
       data(){
         return{
           headerinfo:'父组件',
-          userinfo:{}
+          userinfo:{},
+          isEdit:false,
         }
       },
       components:{Header},
       methods:{
+        update(){
+          if(this.isEdit){
+            this.$axios.post('/user/updateinfo',{username:this.userinfo.username}).then(res=>{
+              if(res.code=200){
+                this.$message({
+                  message: '修改成功',
+                  type: 'success'
+                });
+                this.isEdit=false
+              }
+              else {
+                this.$message({
+                  message: '修改失败',
+                  type: 'warning'
+                });
+              }
+            })
+          }
+          else {
+            this.isEdit=true
+          }
+        },
         getlogin(){
           this.$axios.get('/user').then(res=>{
             if(res.code==200){
@@ -54,9 +78,19 @@
 </script>
 
 <style scoped lang="scss">
+  .xiugai{
+    position: fixed;
+    height: 1rem;
+    width: 2rem;
+    right: 0rem;
+    top: .1rem;
+    color: white;
+    font-size: 16px;
+    line-height: 1rem;
+    z-index: 1999;
+  }
   .container{
     margin-top: 44px;
-
     .item{
       text-align: left;
       width: 100%;
@@ -67,9 +101,11 @@
         text-align: left;
         height: 100%;
         line-height: 50px;
-        width: 3rem;
+        width: 4rem;
       }
       .fr{
+        outline: none;
+        border: none;
         margin-right: 10px;
         text-align: right;
         line-height: 50px;

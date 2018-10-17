@@ -14,13 +14,13 @@
             <p>政治学习</p>
           </div>
         </div>
-        <div class="fl item">
+        <div class="fl item" @click="godetail('/palmactivity/think','思想汇报',true)">
           <div>
             <img src="../../assets/palmactivity/icon2.png" alt="">
             <p>思想汇报</p>
           </div>
         </div>
-        <div class="fl item">
+        <div class="fl item" @click="godetail('/palmactivity/mythink','心得总结',true)">
           <div>
             <img src="../../assets/palmactivity/icon3.png" alt="">
             <p>心得总结</p>
@@ -32,7 +32,7 @@
             <p>民主评议</p>
           </div>
         </div>
-        <div class="fl item">
+        <div class="fl item" @click="godetail('/map','流动党员找组织',true)">
           <div>
             <img src="../../assets/palmactivity/icon5.png" alt="">
             <p>流动党员找组织</p>
@@ -49,15 +49,38 @@
       data(){
           return{
             headerinfo:'父组件',
+            isLogin:false
           }
       },
       components:{Header},
       methods:{
-        godetail(route){
-          this.$router.push(route)
+        //判断是否登录
+        getlogin(){
+          this.$axios.get('/user').then(res=>{
+            if(res.code==200){
+              this.isLogin=true
+            }
+            else {
+              this.isLogin=false
+            }
+          })
+        },
+        godetail(route,info,flag){
+          if(flag){
+            if(this.isLogin){
+              this.$router.push({path:route, query:{headerinfo: info}})
+            }
+            else {
+              this.$router.push('/login')
+            }
+          }
+          else {
+            this.$router.push({path:route, query:{headerinfo: info}})
+          }
         },
       },
       created(){
+          this.getlogin()
         this.headerinfo=this.$route.query.headerinfo
       }
     }
