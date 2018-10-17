@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>partybulid</title>
+  </head>
+  <style>
+    *{
+      margin: 0px;
+      padding: 0px;
+    }
+    body{
+      font-size: 14px;
+    }
+    .fl{
+      float: left;
+    }
+    .fr{
+      float: right;
+    }
+   a{
+     text-decoration: none;
+     color: black;
+   }
+  </style>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+  <script>
+
+    function setRem() {
+      var scrren = document.documentElement.clientWidth || 320
+      document.getElementsByTagName('html')[0].style.fontSize = scrren / 10 + "px"
+    }
+    setRem()
+
+  </script>
+
+</html>
