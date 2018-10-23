@@ -6,13 +6,28 @@
      <div class="avatar item">
        <div class="fl">头像</div>
        <div class="fr">
-         <img :src="userinfo.avatar" alt="" >
+
+        <div class="upload"  >
+          <el-upload
+            class="my-uploader"
+            action="https://upload-z1.qiniup.com"
+            :show-file-list="false"
+            :data="ToKen"
+            :on-success="handleAvatarSuccess">
+            <!--<img v-if="imageUrl" :src="imageUrl" class="avatar">-->
+            <i  class="">
+              <img :src="imageUrl" alt="" >
+            </i>
+          </el-upload>
+
+        </div>
+         <!--<img :src="userinfo.avatar" alt="" v-if="!isEdit">-->
        </div>
      </div>
      <div class="namee item">
        <div class="fl">姓名</div>
        <input type="text" class="fr"v-model="userinfo.username" v-if="isEdit">
-       <in class="fr" v-if="!isEdit">{{userinfo.username}}</in>
+       <div class="fr" v-if="!isEdit">{{userinfo.username}}</div>
      </div>
      <div class="id item">
        <div class="fl">{{isEdit?'身份证号(不可更改)':"身份证号"}}</div>
@@ -27,6 +42,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import Header from '../../common/header'
     export default {
         name: "index",
@@ -35,13 +51,18 @@
           headerinfo:'父组件',
           userinfo:{},
           isEdit:false,
+          imageUrl:'',
+          ToKen:{}
         }
       },
       components:{Header},
       methods:{
+        handleAvatarSuccess(res, file) {
+          this.imageUrl = res.url;
+        },
         update(){
           if(this.isEdit){
-            this.$axios.post('/user/updateinfo',{username:this.userinfo.username}).then(res=>{
+            this.$axios.post('/user/updateinfo',{username:this.userinfo.username,avatar:this.imageUrl}).then(res=>{
               if(res.code=200){
                 this.$message({
                   message: '修改成功',
@@ -65,11 +86,15 @@
           this.$axios.get('/user').then(res=>{
             if(res.code==200){
               this.userinfo=res.data
+              this.imageUrl=this.userinfo.avatar
             }
           })
         }
       },
       created(){
+        axios.get('http://upload.yaojunrong.com/getToken').then(res => {
+          this.ToKen = {token: res.data.data}
+        })
         this.headerinfo=this.$route.query.headerinfo
          // this.userinfo= this.$route.query.userinfo
           this.getlogin()
@@ -78,6 +103,9 @@
 </script>
 
 <style scoped lang="scss">
+  input{
+    background-color: transparent;
+  }
   .xiugai{
     position: fixed;
     height: 1rem;
@@ -117,6 +145,12 @@
       height: 70px;
       .fl{
         line-height: 70px;
+      }
+      .my-uploader{
+        float: right;
+        height: 70px;
+        width: 50px;
+        border-radius: 50%;
       }
       img{
         margin-top: 10px;

@@ -5,7 +5,7 @@
        <div class="topbg">
          <p>{{userinfo.integral}}</p>
        </div>
-      <div class="int-detail">
+      <div class="int-detail" @click="godetail('/jifendetail','积分明细',)">
         <div class="icon"></div>
         <p>积分明细</p>
       </div>
@@ -45,6 +45,9 @@
     },
     components:{Header},
     methods:{
+      godetail(route,info,flag){
+        this.$router.push({path:route, query:{headerinfo: info}})
+      },
       getlogin(){
         this.$axios.get('/user').then(res=>{
           if(res.code==200){

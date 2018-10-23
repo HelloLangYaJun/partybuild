@@ -50,10 +50,10 @@
       <div class="left item"></div>
       <div class="middle item">
         <div @click="godetail('/detail/studyevery?type=6','随时随地学')"></div>
-        <div @click="godetail('/detail/photoevery?type=4','制度建设')"></div>
+        <div @click="godetail('/detail/photoevery?type=4','随时随地拍')"></div>
       </div>
       <div class="right item">
-        <div @click="godetail('/detail/zhidubuild?type=7','随时随地拍')"></div>
+        <div @click="godetail('/detail/zhidubuild?type=7','制度建设')"></div>
         <div @click="godetail('/detail/activity?type=1','特色活动')"></div>
       </div>
     </div>
@@ -179,7 +179,7 @@
   .footer{
     height: 160px;
     width: 100%;
-    background: url("../../assets/index/专栏.png");
+    background: url("../../assets/index/tese.png");
     background-size: 100% 160px;
     display: flex;
     justify-content: space-around;

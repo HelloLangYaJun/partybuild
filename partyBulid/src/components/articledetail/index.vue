@@ -32,6 +32,7 @@
             this.title = res.data.title
             this.article = res.data.content
             console.log(this.article.content)
+            this.$axios.post('/updatejifen',{content:'查看新闻',Number:1})
           }
         })
       },

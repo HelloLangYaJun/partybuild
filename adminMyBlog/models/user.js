@@ -11,7 +11,7 @@ const user = new mongoose.Schema({
     },
     integral:{
         type: Number,
-        default: '500'
+        default: '50'
     },
     money:{
         type: Number,
@@ -20,9 +20,16 @@ const user = new mongoose.Schema({
     password: String,
     avatar: {
         type: String,
-        default: 'http://pic.eastlady.cn/uploads/tp/201604/64/38.jpg'
+        default: 'http://pic.eastlady.cn/uploads/tp/201604/64/38.jpg',
     },
-       
+    jifen:[
+        {      
+            Number: Number, 
+            content: String,
+            date: { type: Date, default: Date.now },
+        }
+    ],
+    date: { type: Date, default: Date.now },     
 }, {versionKey: false})
 
 module.exports = mongoose.model("user", user)

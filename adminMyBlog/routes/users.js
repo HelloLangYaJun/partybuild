@@ -4,7 +4,6 @@ const user = require('../models/user')
 router.get('/user',(req,res)=>{
   if(req.session.user){
       user.findOne({id:req.session.user.id}).then(data=>{
-    
         res.json({
             code: 200,
             data:data,
@@ -21,10 +20,12 @@ router.get('/user',(req,res)=>{
 })
 //修改个人信息
 router.post('/user/updateinfo',(req,res)=>{
-    let{username} = req.body
-      user.update({id:req.session.user.id},{$set:{username:username}}).then(data=>{
+    let{username,avatar} = req.body
+      user.update({id:req.session.user.id},{$set:{username:username,avatar:avatar}}).then(data=>{
+          console.log(data)
         res.json({
             code: 200,
+            data,
             msg: '修改成功'
         })
       }).catch(err=>{
@@ -133,7 +134,7 @@ router.post('/login', (req, res) => {
 // })
 //注册
 router.post('/user', (req, res) => {
-    let {username, id, password} = req.body;
+    let {username='管理员', id, password} = req.body;
     console.log(username, id, password)
     if(username&&password&&id){
         user.findOne({id:id}).then(data=>{
@@ -165,5 +166,21 @@ router.post('/user', (req, res) => {
         })
     }
 })
-
+//更新积分
+router.post('/updatejifen', (req, res) => {
+    let {content='查看新闻',Number=1} = req.body;
+   if(req.session.user){
+       user.update({id:req.session.user.id},{$push:{jifen:{content,Number}},$inc:{integral:Number}}).then(data=>{    
+        res.json({
+            code: 200,
+            data
+        })  
+       })
+   }
+   else{
+    res.json({
+        code: 200,
+    })  
+   }
+})
 module.exports = router;

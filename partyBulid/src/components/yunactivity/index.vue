@@ -97,6 +97,7 @@
               message: '回复成功',
               type: 'success'
             });
+            this.getmessage()
           }
           else {
             this.$message({

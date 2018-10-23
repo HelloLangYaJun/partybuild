@@ -16,7 +16,8 @@ const components= {
   news:()=>import('@/components/news/index'),
   think:()=>import('@/components/palmactivity/think/index'),
   mythink:()=>import('@/components/palmactivity/mythink/index'),
-  map:()=>import('@/components/map/index')
+  map:()=>import('@/components/map/index'),
+  jifendetail:()=>import('@/components/jifendetail/index')
 }
 Vue.use(Router)
 export default new Router({
@@ -49,6 +50,11 @@ export default new Router({
       path: '/yunhudong',
       name: 'yunhudong',
       component: components.yunhudong
+    },
+    {
+      path: '/jifendetail',
+      name: 'jifendetail',
+      component: components.jifendetail
     },
     {
       path: '/map',

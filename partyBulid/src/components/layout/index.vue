@@ -128,7 +128,7 @@ import Vue from 'vue'
 
   .tabbar {
     height: 48px;
-    z-index: 999;
+    z-index: 2999;
     width: 100%;
     color: #888;
     position: fixed;
